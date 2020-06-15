@@ -21,10 +21,17 @@ class App extends Component {
     });
   }
 
-  // 2 ways to pass in method with values - onClick={this.switchNameHandler(this, 'somename')} - preferred way
-  // or create a custom attribute like - click={() => this.switchHandler('someName')}.
-  // During execution, compiler evaluates the empty function here
-  // and calls the original method to execute and returns that value. This is not the preferred way though.
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        {name: 'Arun', age: Math.round(Math.random() * 100)},
+
+        // whatever name is typed, we map it just to the 2nd name for now below
+        {name: event.target.value, age: Math.round(Math.random() * 100)},
+        {name: 'San Churros', age: Math.round(Math.random() * 100)}
+      ]
+    });
+  }
 
   render() {
     return (
@@ -39,7 +46,8 @@ class App extends Component {
         <Person
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
-          click={() => this.switchNameHandler('Vanilla custard')}>
+          click={() => this.switchNameHandler('Vanilla custard')}
+          changed={this.nameChangedHandler}>
             My hobbies: Games + Sleeping
         </Person>
 
