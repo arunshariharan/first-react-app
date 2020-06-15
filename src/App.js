@@ -1,40 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person';
+import UserInput from './UserAction/UserInput';
+import UserOutput from './UserAction/UserOutput';
 
 class App extends Component {
   state = {
-    persons: [
-      {name: 'Arun', age: Math.round(Math.random() * 100)},
-      {name: 'Max', age: Math.round(Math.random() * 100)},
-      {name: 'Brenner', age: Math.round(Math.random() * 100)}
-   ],
+    userName: "San Churros"
   }
 
-  switchNameHandler = (newName) => {
+  usernameChangedHandler = (event) => {
     this.setState({
-      persons: [
-        {name: newName, age: Math.round(Math.random() * 100)},
-        {name: 'MaxBrenner', age: Math.round(Math.random() * 100)},
-        {name: 'San Churros', age: Math.round(Math.random() * 100)}
-      ]
-    });
-  }
-
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        {name: 'Arun', age: Math.round(Math.random() * 100)},
-
-        // whatever name is typed, we map it just to the 2nd name for now below
-        {name: event.target.value, age: Math.round(Math.random() * 100)},
-        {name: 'San Churros', age: Math.round(Math.random() * 100)}
-      ]
+      userName: event.target.value
     });
   }
 
   render() {
-
     const styling = {
       border: '1px solid blue',
       backgroundColor: 'white',
@@ -45,26 +25,12 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Hello, welcome to my app!</h1>
-        <button
-          style={styling}
-          onClick={this.switchNameHandler.bind(this, 'Koko Black')}>Switch name!</button>
 
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age} />
-
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={() => this.switchNameHandler('Vanilla custard')}
-          changed={this.nameChangedHandler}>
-            My hobbies: Games + Sleeping
-        </Person>
-
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age} />
+        <UserOutput
+          userName = {this.state.userName}
+          />
+        <UserInput changed={this.usernameChangedHandler}/> <br />
+        <button style={styling} >Take me in!</button>
       </div>
     );
   }
