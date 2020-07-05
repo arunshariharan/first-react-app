@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import Validation from './Validation/Validation';
+import Char from './Char/Char';
 
 class App extends Component {
   state = {
@@ -9,7 +11,8 @@ class App extends Component {
       {id: 2, name: 'Max', age: Math.round(Math.random() * 100)},
       {id: 3, name: 'Brenner', age: Math.round(Math.random() * 100)}
    ],
-    showPersons: false
+    showPersons: false,
+    userInput: ''
   }
 
   switchNameHandler = (newName) => {
@@ -52,6 +55,19 @@ class App extends Component {
     this.setState({showPersons: !showPersonsValue});
   }
 
+  changeListenerHandler = (event) => {
+    this.setState({
+      userInput: event.target.value
+    })
+  }
+
+  deleteCharacterHandler = (index) =>{
+    let currentCharList = [...this.state.userInput.split('')];
+    currentCharList.splice(index, 1);
+    let currentUserInput = currentCharList.join('');
+    this.setState({userInput: currentUserInput});
+  }
+
   render() {
 
     const styling = {
@@ -82,13 +98,21 @@ class App extends Component {
       );
     }
 
+    let charList = this.state.userInput.split('').map((input, index) => {
+      return <Char character ={input} clicked = {() => this.deleteCharacterHandler(index)} key={index} />
+    });
+
     return (
       <div className="App">
         <h1>Hello, welcome to my app!</h1>
+        <input type="text" onChange={this.changeListenerHandler} value = {this.state.userInput} />
+        <Validation charLength= {this.state.userInput.length}/>
         <button
           style={styling}
-          onClick={this.showPersonsHandler}>Show People List!</button>
+          onClick={this.showPersonsHandler}>Show People List!
+        </button>
         {persons}
+        {charList}
       </div>
     );
   }
