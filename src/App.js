@@ -22,16 +22,11 @@ class App extends Component {
     });
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        {name: 'Arun', age: Math.round(Math.random() * 100)},
-
-        // whatever name is typed, we map it just to the 2nd name for now below
-        {name: event.target.value, age: Math.round(Math.random() * 100)},
-        {name: 'San Churros', age: Math.round(Math.random() * 100)}
-      ]
-    });
+  nameChangedHandler = (event, id) => {
+    let persons = [...this.state.persons];
+    let person = persons.find(p => p.id === id);
+    person.name = event.target.value;
+    this.setState({persons: persons});
   }
 
   deletePersonHandler = (personIndex) => {
@@ -79,6 +74,7 @@ class App extends Component {
               name = {person.name}
               age = {person.age} 
               key = {person.id}
+              changed = {(event) => this.nameChangedHandler(event, person.id)}
             /> 
           })
         }
