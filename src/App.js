@@ -34,6 +34,24 @@ class App extends Component {
     });
   }
 
+  deletePersonHandler = (personIndex) => {
+    // slice without args just returns a new copy of an array without modifying anything 
+    // if we "SPLICE" in the next step without slicing, we will end up modifying original state
+    // which is dangerous since arrays are reference types.
+    // const persons = this.state.persons.slice();
+
+    // As an alternative, we can use the spread operator as below
+    // this copies and populates existing array into the new array
+    const persons = [...this.state.persons];
+
+    // splice adds/ removes data in an array. 
+    // The first argument specifies the index to start splicing
+    // Second arg says how many to remove after that index
+    persons.splice(personIndex, 1);
+
+    this.setState({persons: persons});
+  }
+
   showPersonsHandler = () => {
     const showPersonsValue = this.state.showPersons;
     this.setState({showPersons: !showPersonsValue});
@@ -54,23 +72,15 @@ class App extends Component {
     if(this.state.showPersons) {
       persons = (
       <div>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}>
-        </Person>
-
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={() => this.switchNameHandler('Vanilla custard')}
-          changed={this.nameChangedHandler}>
-            My hobbies: Games + Sleeping
-        </Person>
-
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}>
-        </Person>
+        {
+          this.state.persons.map((person, index) => {
+            return <Person 
+              click = {this.deletePersonHandler.bind(this, index)}
+              name = {person.name}
+              age = {person.age} 
+            /> 
+          })
+        }
       </div>
       );
     }
