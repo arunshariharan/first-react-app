@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
-import Radium from 'radium';
+import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
   state = {
     persons: [
-      {id: 1, name: 'Arun', age: Math.round(Math.random() * 100)},
-      {id: 2, name: 'Max', age: Math.round(Math.random() * 100)},
-      {id: 3, name: 'Brenner', age: Math.round(Math.random() * 100)}
-   ],
+      { id: 1, name: 'Arun', age: Math.round(Math.random() * 100) },
+      { id: 2, name: 'Max', age: Math.round(Math.random() * 100) },
+      { id: 3, name: 'Brenner', age: Math.round(Math.random() * 100) }
+    ],
     showPersons: false
   }
 
   switchNameHandler = (newName) => {
     this.setState({
       persons: [
-        {name: newName, age: Math.round(Math.random() * 100)},
-        {name: 'MaxBrenner', age: Math.round(Math.random() * 100)},
-        {name: 'San Churros', age: Math.round(Math.random() * 100)}
+        { name: newName, age: Math.round(Math.random() * 100) },
+        { name: 'MaxBrenner', age: Math.round(Math.random() * 100) },
+        { name: 'San Churros', age: Math.round(Math.random() * 100) }
       ]
     });
   }
@@ -27,7 +27,7 @@ class App extends Component {
     let persons = [...this.state.persons];
     let person = persons.find(p => p.id === id);
     person.name = event.target.value;
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   deletePersonHandler = (personIndex) => {
@@ -45,12 +45,12 @@ class App extends Component {
     // Second arg says how many to remove after that index
     persons.splice(personIndex, 1);
 
-    this.setState({persons: persons});
+    this.setState({ persons: persons });
   }
 
   showPersonsHandler = () => {
     const showPersonsValue = this.state.showPersons;
-    this.setState({showPersons: !showPersonsValue});
+    this.setState({ showPersons: !showPersonsValue });
   }
 
   render() {
@@ -62,46 +62,47 @@ class App extends Component {
       font: 'inherit',
       padding: '8px',
       cursor: 'pointer',
-      ':hover': {backgroundColor: 'lightgreen', color: 'black'}
+      ':hover': { backgroundColor: 'lightgreen', color: 'black' }
     }
 
     let persons = null;
 
-    if(this.state.showPersons) {
+    if (this.state.showPersons) {
       persons = (
-      <div>
-        {
-          this.state.persons.map((person, index) => {
-            return <Person 
-              click = {this.deletePersonHandler.bind(this, index)}
-              name = {person.name}
-              age = {person.age} 
-              key = {person.id}
-              changed = {(event) => this.nameChangedHandler(event, person.id)}
-            /> 
-          })
-        }
-      </div>
+        <div>
+          {
+            this.state.persons.map((person, index) => {
+              return <Person
+                click={this.deletePersonHandler.bind(this, index)}
+                name={person.name}
+                age={person.age}
+                key={person.id}
+                changed={(event) => this.nameChangedHandler(event, person.id)}
+              />
+            })
+          }
+        </div>
       );
 
       styling.backgroundColor = 'red';
-      styling[':hover'] =  {backgroundColor: 'lightpink', color: 'black'}
+      styling[':hover'] = { backgroundColor: 'lightpink', color: 'black' }
     }
 
     let classNames = [];
-    if(this.state.persons.length <= 2) classNames.push('red');
-    if(this.state.persons.length <= 1) classNames.push('bold');
-    console.log(this.state.persons, classNames);
+    if (this.state.persons.length <= 2) classNames.push('red');
+    if (this.state.persons.length <= 1) classNames.push('bold');
 
     return (
-      <div className="App">
-        <h1>Hello, welcome to my app!</h1>
-        <p className={classNames.join(' ')}>This really works!</p>
-        <button
-          style={styling}
-          onClick={this.showPersonsHandler}>Show People List!</button>
-        {persons}
-      </div>
+      <StyleRoot>
+        <div className="App">
+          <h1>Hello, welcome to my app!</h1>
+          <p className={classNames.join(' ')}>This really works!</p>
+          <button
+            style={styling}
+            onClick={this.showPersonsHandler}>Show People List!</button>
+          {persons}
+        </div>
+      </StyleRoot>
     );
   }
 }
