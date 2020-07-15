@@ -3,6 +3,7 @@ import './App.css';
 import Person from './Person/Person';
 import Validation from './Validation/Validation';
 import Char from './Char/Char';
+import Shop from './Shop/Shop';
 
 class App extends Component {
   state = {
@@ -12,7 +13,13 @@ class App extends Component {
       {id: 3, name: 'Brenner', age: Math.round(Math.random() * 100)}
    ],
     showPersons: false,
-    userInput: ''
+    showShops: false,
+    userInput: '',
+    shops: [
+      {id:1, name: 'Woolworths', location: 'Carlton', distance: '700m', nickname: ''},
+      {id:2, name: 'Woolworths', location: 'Melbourne Central', distance: '1700m', nickname: ''},
+      {id:3, name: 'Coles', location: 'Melbourne Central', distance: '1700m', nickname: ''}
+    ]
   }
 
   switchNameHandler = (newName) => {
@@ -68,6 +75,18 @@ class App extends Component {
     this.setState({userInput: currentUserInput});
   }
 
+  shopNicknameHandler = (event, id) => {
+    let shopsList = [...this.state.shops];
+    let currentShop = shopsList.find(shop => shop.id === id);
+    currentShop.nickname = event.target.value;
+    this.setState({shops: shopsList});
+  }
+
+  showShopsHandler = () => {
+    let showshops = this.state.showShops;
+    this.setState({showShops: !showshops});
+  }
+
   render() {
 
     const styling = {
@@ -102,6 +121,28 @@ class App extends Component {
       return <Char character ={input} clicked = {() => this.deleteCharacterHandler(index)} key={index} />
     });
 
+    let shops = null;
+
+    if(this.state.showShops)
+    {
+      shops = (
+        <div>
+          {
+            this.state.shops.map((shop) => {
+              return <Shop
+                name = {shop.name}
+                location = {shop.location}
+                distance = {shop.distance}
+                nickname = {shop.nickname}
+                key = {shop.id}
+                changed = {(event) => this.shopNicknameHandler(event, shop.id)}
+              />
+            })
+          }
+        </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1>Hello, welcome to my app!</h1>
@@ -113,6 +154,9 @@ class App extends Component {
         </button>
         {persons}
         {charList}
+        <br /><br /><br />
+        <button onClick = {this.showShopsHandler} style = {styling}>Show Shops!</button>
+        {shops}
       </div>
     );
   }
