@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import styled from 'styled-components';
+
+// styled-components uses normal css 
+// the backticks are called template literals in javascript. We can use ${} to evaluate javascript 
+// and finall all of it is combined into a string when compiled
+// these can be added into a separate file and called in as well, if this file gets too big
+const StyledButton = styled.button`
+  border: 1px solid blue;
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  color: ${props => props.alt ? 'black' : 'white'};
+  font: inherit;
+  padding: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${props => props.alt ? 'lightpink' : 'lightgreen'};
+    color: ${props => props.alt ? 'black' : 'black'};
+  }
+`;
 
 class App extends Component {
   state = {
@@ -53,16 +72,6 @@ class App extends Component {
   }
 
   render() {
-
-    const styling = {
-      border: '1px solid blue',
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      padding: '8px',
-      cursor: 'pointer'
-    }
-
     let persons = null;
 
     if (this.state.showPersons) {
@@ -81,9 +90,6 @@ class App extends Component {
           }
         </div>
       );
-
-      styling.backgroundColor = 'red';
-      styling[':hover'] = { backgroundColor: 'lightpink', color: 'black' }
     }
 
     let classNames = [];
@@ -94,9 +100,10 @@ class App extends Component {
       <div className="App">
         <h1>Hello, welcome to my app!</h1>
         <p className={classNames.join(' ')}>This really works!</p>
-        <button
-          style={styling}
-          onClick={this.showPersonsHandler}>Show People List!</button>
+        <StyledButton
+          alt={this.state.showPersons}
+          onClick={this.showPersonsHandler}>Show People List!
+        </StyledButton>
         {persons}
       </div>
 
