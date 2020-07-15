@@ -56,7 +56,8 @@ class App extends Component {
 
     const styling = {
       border: '1px solid blue',
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       padding: '8px',
       cursor: 'pointer'
@@ -80,11 +81,19 @@ class App extends Component {
         }
       </div>
       );
+
+      styling.backgroundColor = 'red';
     }
+
+    let classNames = [];
+    if(this.state.persons.length <= 2) classNames.push('red');
+    if(this.state.persons.length <= 1) classNames.push('bold');
+    console.log(this.state.persons, classNames);
 
     return (
       <div className="App">
         <h1>Hello, welcome to my app!</h1>
+        <p className={classNames.join(' ')}>This really works!</p>
         <button
           style={styling}
           onClick={this.showPersonsHandler}>Show People List!</button>
