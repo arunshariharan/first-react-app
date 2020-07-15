@@ -1,25 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+import cssClasses from './App.css';
 import Person from './Person/Person';
-import styled from 'styled-components';
-
-// styled-components uses normal css 
-// the backticks are called template literals in javascript. We can use ${} to evaluate javascript 
-// and finall all of it is combined into a string when compiled
-// these can be added into a separate file and called in as well, if this file gets too big
-const StyledButton = styled.button`
-  border: 1px solid blue;
-  background-color: ${props => props.alt ? 'red' : 'green'};
-  color: ${props => props.alt ? 'black' : 'white'};
-  font: inherit;
-  padding: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${props => props.alt ? 'lightpink' : 'lightgreen'};
-    color: ${props => props.alt ? 'black' : 'black'};
-  }
-`;
 
 class App extends Component {
   state = {
@@ -73,6 +54,7 @@ class App extends Component {
 
   render() {
     let persons = null;
+    let cssButton = [cssClasses.Button];
 
     if (this.state.showPersons) {
       persons = (
@@ -90,20 +72,21 @@ class App extends Component {
           }
         </div>
       );
+
+      cssButton.push(cssClasses.Red);
     }
 
     let classNames = [];
-    if (this.state.persons.length <= 2) classNames.push('red');
-    if (this.state.persons.length <= 1) classNames.push('bold');
+    if (this.state.persons.length <= 2) classNames.push(cssClasses.red);
+    if (this.state.persons.length <= 1) classNames.push(cssClasses.bold);
 
     return (
-      <div className="App">
+      <div className={cssClasses.App}>
         <h1>Hello, welcome to my app!</h1>
         <p className={classNames.join(' ')}>This really works!</p>
-        <StyledButton
-          alt={this.state.showPersons}
+        <button className={cssButton.join(' ')}
           onClick={this.showPersonsHandler}>Show People List!
-        </StyledButton>
+        </button>
         {persons}
       </div>
 
